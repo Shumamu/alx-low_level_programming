@@ -9,18 +9,26 @@
 
 void print_diagonal(int n)
 {
-	int postn, space;
+	int a, b;
 
-	if (n <= 0)
-		_putchar('\n');
-	else
+	if (n > 0)
 	{
-		for (postn = 1; postn <= n; postn++)
+		for (a = 1; a <= n; a++)
 		{
-			for (space = 1; space <= postn; space++)
-				_putchar('_');
-			_putchar(92); /*is equal to '/' char*/
+			for (b = 1; b <= n; b++)
+			{
+				if (a == b)
+				{
+					_putchar(92);
+					break;
+				}
+				_putchar(' ');
+			}
 			_putchar('\n');
 		}
+	}
+	else
+	{
+		_putchar('\n');
 	}
 }
