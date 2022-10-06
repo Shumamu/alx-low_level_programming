@@ -1,209 +1,230 @@
 #include "main.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
 
 /**
- * check_num - function to check the string for number
- * @st: string being passed
- * Return: 1 for number 0 for not
+ * _memset - fills memory with a constant byte
+ *
+ * @s: input pointer that represents memory block
+ *     to fill
+ * @b: characters to fill/set
+ * @n: number of bytes to be filled
+ *
+ * Return: pointer to the filled memory area
  */
 
-int check_num(char *st)
+
+
+char *_memset(char *s, char b, unsigned int n)
 
 {
 
-	int a;
+	unsigned int i = 0;
 
 
 
-	for (a = 0; st[a] != '\0'; a++)
+	while (i < n)
 
 	{
 
-		if (st[a] < '0' || st[a] > '9')
+		s[i] = b;
 
-			return (0);
-
-	}
-
-	return (1);
-
-}
-
-/**
- * string_length - calculating string length
- * @str: string to check
- * Return: count
- */
-
-unsigned int string_length(char *str)
-
-{
-
-	int a;
-
-
-
-	for (a = 0; str[a] != '\0'; a++)
-
-		a++;
-
-	return (a);
-
-}
-
-
-
-/**
- * print_string - function to print string
- * @st: string to print
- * Return: none
- */
-
-void print_string(char *st)
-
-{
-
-	while (*st == '\0')
-
-		st++;
-
-	if (*st == '\0')
-
-		_putchar('0');
-
-	while (*st == '0')
-
-		st++;
-
-	while (*st != '\0')
-
-	{
-
-		_putchar(*st);
-
-		st++;
+		i++;
 
 	}
 
-	_putchar('\n');
+	return (s);
 
 }
 
 
 
 /**
- * _calloc - function for memory
- * @number: the number
- * @size: the size
- * Return: pointer to memory
+ * _calloc - function that allocates memory
+ *           for an array using memset
+ *
+ * @nmemb: size of array
+ * @size: size of each element
+ *
+ * Return: pointer to new allocated memory
  */
 
-void *_calloc(unsigned int number, unsigned int size)
+
+
+void *_calloc(unsigned int nmemb, unsigned int size)
 
 {
 
-	char *p;
-
-	unsigned int a;
+	char *ptr;
 
 
 
-	if (number == 0 || size == 0)
+	if (nmemb == 0 || size == 0)
 
 		return (NULL);
 
-	p = malloc(number * size);
+	ptr = malloc(nmemb * size);
 
-	if (p == 0)
+	if (ptr == NULL)
 
 		return (NULL);
 
-	for (a = 0; a < (number * size); a++)
+	_memset(ptr, 0, nmemb * size);
 
-		p[a] = 0;
 
-	return (p);
+
+	return (ptr);
 
 }
 
 
 
+
+
 /**
- * main - function to multiply
- * @argc: number of arguments passed
- * @argv: argument variables
- * Return: Always zero
+ * multiply - initialize array with 0 byte
+ *
+ * @s1: string 1
+ * @s2: string 2
+ *
+ * Return: nothing
  */
 
-int main(int argc, char **argv)
+
+
+void multiply(char *s1, char *s2)
 
 {
 
-	char *n1, *n2, *multi_res;
+	int i, l1, l2, total_l, f_digit, s_digit, res = 0, tmp;
 
-	unsigned int l = 0, l1 = 0, l2 = 0, a, b, t = 0, c = 0, ten = 0;
+	char *ptr;
+
+	void *temp;
 
 
 
-	if (argc < 3)
+	l1 = _length(s1);
 
-	{
+	l2 = _length(s2);
 
-		print_string("Error");
+	tmp = l2;
 
-		exit(98);
+	total_l = l1 + l2;
 
-	}
+	ptr = _calloc(sizeof(int), total_l);
 
-	l1 = string_length(n1);
 
-	l2 = string_length(n2);
 
-	l = l1 + l2;
+	/* store our pointer address to free later */
 
-	multi_res = _calloc(l + 1, sizeof(char *));
+	temp = ptr;
 
-	if (multi_res == 0)
 
-	{
 
-		print_string("Error");
-
-		exit(98);
-
-	}
-
-	for (a = 0; a < l1; a++, ten++)
+	for (l1--; l1 >= 0; l1--)
 
 	{
 
-		for (c = 0, b = 0; b < l2; b++)
+		f_digit = s1[l1] - '0';
+
+		res = 0;
+
+		l2 = tmp;
+
+		for (l2--; l2 >= 0; l2--)
 
 		{
 
-			t = (n1[l1 - a - 1] - '0') * (n2[l2 - b - 1] - '0') + c;
+			s_digit = s2[l2] - '0';
 
-			printf("%u\n", t);
+			res += ptr[l2 + l1 + 1] + (f_digit * s_digit);
 
-			if (multi_res[l - b - ten - 1] > 0)
+			ptr[l1 + l2 + 1] = res % 10;
 
-				t = t + multi_res[l - b - ten - 1] - '0';
-
-			multi_res[l - b - ten - 1] = t % 10 + '0';
-
-			c = t / 10;
+			res /= 10;
 
 		}
 
-		multi_res[l - b - ten - 1] += c + '0';
+		if (res)
+
+			ptr[l1 + l2 + 1] = res % 10;
 
 	}
 
-	print_string(multi_res);
 
-	free(multi_res);
+
+	while (*ptr == 0)
+
+	{
+
+		ptr++;
+
+		total_l--;
+
+	}
+
+
+
+	for (i = 0; i < total_l; i++)
+
+		printf("%i", ptr[i]);
+
+	printf("\n");
+
+	free(temp);
+
+}
+
+
+
+
+
+/**
+ * main - Entry point
+ *
+ * Description: a program that multiplies
+ *            two positive numbers
+ *
+ * @argc: number of arguments
+ * @argv: arguments array
+ *
+ * Return: 0 on success 98 on faliure
+ */
+
+
+
+int main(int argc, char *argv[])
+
+{
+
+	char *n1 = argv[1];
+
+	char *n2 = argv[2];
+
+
+
+	if (argc != 3 || check_number(n1) || check_number(n2))
+
+		error_exit();
+
+
+
+	if (*n1 == '0' || *n2 == '0')
+
+	{
+
+		_putchar('0');
+
+		_putchar('\n');
+
+	}
+
+	else
+
+		multiply(n1, n2);
 
 	return (0);
 
