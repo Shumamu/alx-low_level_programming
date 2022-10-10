@@ -2,16 +2,19 @@
 
 #define DOG_H
 
+int _putchar(char c);
+
 
 /**
- * struct dog - dog structure
- *
- * @name: name of dog
- * @age: age of the dog
- * @owner: dog owner
+ * struct dog - best friend of humankind
+ * @name: dog's name
+ * @age: dog's age
+ * @owner: owner's name
  */
 
-struct dog
+
+
+typedef struct dog
 
 {
 
@@ -21,15 +24,7 @@ struct dog
 
 	char *owner;
 
-};
-
-
-
-/**
- * dog_t -Typedef for struct dog
- */
-
-typedef struct dog dog_t;
+} dog_t;
 
 
 
@@ -43,4 +38,4 @@ void free_dog(dog_t *d);
 
 
 
-#endif /* struct dog */
+#endif
