@@ -1,80 +1,58 @@
-#include <stdio.h>
-#include <stdlib.>
 #include "3-calc.h"
+#include <stddef.h>
+
+
 
 /**
- * op_add - adds 5 functions
- * @a: int a
- * @b: int b
- * Return: sum of a and b
- */
-
-int op_add(int a, int b)
-
-{
-
-	return (a + b);
-
-}
-
-/**
- * op_sub - subtracts
- * @a: int a
- * @b: int b
- * Return: difference
- */
-
-int op_sub(int a, int b)
-
-{
-
-	return (a - b);
-
-}
-
-/**
- * op_mul - multiplies
- * @a: int a
- * @b: int b
- * Return: multipliy
- */
-
-int op_mul(int a, int b)
-
-{
-
-	return (a * b);
-
-}
-
-/**
- * op_div - division
- * @a: int a
- * @b: int b
- * Return: division
- */
-
-int op_div(int a, int b)
-
-{
-
-	return (a / b);
-
-}
-
-/**
- * op_mod - modulos
- * @a: int a
- * @b: int b
- * Return: modulo of ints
+ * get_op_func - get ops function pointer of type char array
+ *               that accepts two inputs of int data type
+ * @s: a character pointer pointing to a symbol from the program argument
+ *
+ * Return: one of the operator functions to perform calculations
  */
 
 
 
-int op_mod(int a, int b)
+int (*get_op_func(char *s))(int, int)
 
 {
 
-	return (a % b);
+	/* struct opts of struct op_t */
+
+	op_t ops[] = {
+
+		{"+", op_add},
+
+		{"-", op_sub},
+
+		{"*", op_mul},
+
+		{"/", op_div},
+
+		{"%", op_mod},
+
+		{NULL, NULL}
+
+	};
+
+	int i = 0;
+
+
+
+	while (i < 5)
+
+	{
+
+		if (*s == *ops[i].op)
+
+			return (ops[i].f);
+
+		i++;
+
+	}
+
+
+
+	return (NULL);
 
 }

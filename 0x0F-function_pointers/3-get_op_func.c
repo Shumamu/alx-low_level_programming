@@ -1,16 +1,24 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "3-calc.h"
+#include <stddef.h>
+
+
 
 /**
- * get_op_func - gets the right func
- * @s: function s
- * Return: int value
+ * get_op_func - get ops function pointer of type char array
+ *               that accepts two inputs of int data type
+ *
+ * @s: a character pointer pointing to a symbol from the program argument
+ *
+ * Return: one of the operator functions to perform calculations
  */
+
+
 
 int (*get_op_func(char *s))(int, int)
 
 {
+
+	/* struct opts of struct op_t */
 
 	op_t ops[] = {
 
@@ -28,15 +36,15 @@ int (*get_op_func(char *s))(int, int)
 
 	};
 
-	int i;
+	int i = 0;
 
-	i = 0;
 
-	while (ops[i].f != NULL)
+
+	while (i < 5)
 
 	{
 
-		if (*s == *(ops[i].op) && s[1] == '\0')
+		if (*s == *ops[i].op)
 
 			return (ops[i].f);
 
@@ -46,8 +54,6 @@ int (*get_op_func(char *s))(int, int)
 
 
 
-	printf("Error\n");
-
-	exit(99);
+	return (NULL);
 
 }
